@@ -1,9 +1,36 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Tab Two
+      {{title}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content>
+
+  <h2 text-center *ngIf="loadItems().length === 0">
+    No items in grocery list...
+  </h2>
+
+  <ion-item-sliding *ngFor="let item of loadItems(); let i = index">
+    <ion-item>
+      <h2 slot="start">{{item.name}}</h2>
+      <p slot="end">{{item.quantity}}</p>
+    </ion-item>
+    <ion-item-options side="end">
+      <ion-item-option ion-button color="primary" (click)="editItem(item, i)">
+        <ion-icon name="create" size="large"></ion-icon>
+      </ion-item-option>
+      <ion-item-option ion-button color="danger" (click)="removeItem(item, i)">
+        <ion-icon name="trash" size="large"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addItem()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
