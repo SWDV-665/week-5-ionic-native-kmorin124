@@ -11,6 +11,8 @@ import { AppComponent } from './app.component';
 
 import { PromptModalPage } from './prompt-modal/prompt-modal.page'
 
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+
 @NgModule({
   declarations: [AppComponent, PromptModalPage],
   entryComponents: [PromptModalPage],
@@ -18,6 +20,7 @@ import { PromptModalPage } from './prompt-modal/prompt-modal.page'
   providers: [
     StatusBar,
     SplashScreen,
+    SocialSharing,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

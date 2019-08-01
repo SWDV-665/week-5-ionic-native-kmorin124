@@ -6,6 +6,7 @@ import { InputDialogService } from '../input-dialog.service';
 import { ModalController } from '@ionic/angular';
 import { PromptModalPage } from '../prompt-modal/prompt-modal.page'
 import { isNgTemplate } from '@angular/compiler';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 @Component({
   selector: 'app-tab2',
@@ -16,7 +17,7 @@ export class Tab2Page {
 
   title = "Grocery List"
 
-  constructor(public toastController: ToastController, public alertController: AlertController, public groceryService: GroceriesServiceService, public dialogService: InputDialogService, public modalController: ModalController) {}
+  constructor(public socialSharing: SocialSharing, public toastController: ToastController, public alertController: AlertController, public groceryService: GroceriesServiceService, public dialogService: InputDialogService, public modalController: ModalController) {}
 
   loadItems() {
     return this.groceryService.getItems();
@@ -53,4 +54,25 @@ export class Tab2Page {
     toast.present();
     this.dialogService.showPrompt(item, index)
   }
+
+  async shareItem(item, index) {
+    console.log("Sharing Item - ", index, item)
+    const toast = await this.toastController.create({
+      message: 'Sharing ' + item.name + "...",
+      duration: 3000
+    });
+    toast.present();
+
+    let message = "Grocery Item - Name: " + item.name + " - Quantity: " + item.quantity;
+    let subject = "Shared via Groceries App"
+
+    this.socialSharing.share(message, subject).then(()=> {
+      console.log("Shared Successfully");
+    }).catch((error) => {
+      console.log("Error sharing", error);
+    });
+
+  }
 }
+
+
